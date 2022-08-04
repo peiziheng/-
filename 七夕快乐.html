@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>七夕</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <img class="bg" :src="bgImg" />
+        <div class="lover">
+          <div class="express">
+            <h1>{{ title }}<span>💕</span></h1>
+            <div class="wink">
+              <img :src="winkImg" />
+            </div>
+            <p v-for="(text, index) in exhibitionText" :key="index">
+              {{ text }}<span>💕</span>
+            </p>
+          </div>
+          <div class="pray" v-show="!isDecisionShow" @click="onPray">
+            <img :src="kelianImg" />
+            <p>请告诉我Yes!</p>
+            <span class="pray-close">×</span>
+          </div>
+
+          <div class="decision" v-show="isDecisionShow">
+            <div class="decision-btn refuse" @click="onRefuse">
+              No<span>💔</span>
+            </div>
+            <div class="decision-btn" @click="onAgree">Yes<span>❤️</span></div>
+          </div>
+          <div class="agree-wrapper" v-show="isAgreeShow">
+            <div class="agree">
+              <img :src="bixinImg" />
+              <p>太好了，O(∩_∩)O哈哈~</p>
+              <p>
+                {{ agreeText }}<span class="agree-cursor" style="color: #f44336"
+                  >❤</span
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      new Vue({
+        el: "#app", //element
+        // 数据哪里来？
+        data: function () {
+          return {
+            refuseNum: 0,
+            isDecisionShow: true,
+            isAgreeShow: false,
+            title: "做我女朋友好不好",
+            initText:
+              "承蒙你的出现，够我喜欢好多年，我希望，以后你能用我的名字拒绝所有人",
+            benefitText: [
+              "你是我拔掉氧气罐都想吻的人",
+              "你是我跑完8000米还想拥抱的人",
+              "你是我自罚三杯都不肯开口的秘密",
+              "你是我赴汤蹈火都不肯放下的执着",
+              "你是我电量只剩1%也想回信息的人",
+              "你是我穷极一生不想醒来的梦",
+            ],
+            resultText:
+              "遇见你是我所有美好故事的开始，所以，请别放开我的手，也别缺席我的将来，因为一辈子和你在一起才叫将来",
+            exhibitionText: [
+              "承蒙你的出现，够我喜欢好多年，我希望，以后你能用我的名字拒绝所有人",
+            ],
+            agreeText: "",
+            winkImg: "https://zongzi.lovetime.top/juejin/girlfriend/wink.gif",
+            bg: "https://zongzi.lovetime.top/juejin/girlfriend/bg.jpg",
+            kelianImg:
+              "https://zongzi.lovetime.top/juejin/girlfriend/emoji_kelian.jpg",
+            bixinImg:
+              "https://zongzi.lovetime.top/juejin/girlfriend/emoji_bixin.jpg",
+          };
+        },
+        methods: {
+          onRefuse() {
+            if (this.refuseNum < this.benefitText.length) {
+              this.exhibitionText.push(this.benefitText[this.refuseNum]);
+              this.refuseNum++;
+            } else {
+              this.isDecisionShow = false;
+            }
+          },
+          onAgree() {
+            this.isAgreeShow = true;
+            this.onTyped();
+          },
+          onPray() {
+            this.isDecisionShow = true;
+          },
+          onTyped() {
+            let index = 0;
+            const typedTime = setInterval(() => {
+              this.agreeText = this.resultText.substring(0, index++);
+            }, 150);
+            if (index >= this.resultText.length - 1) {
+              clearInterval(typedTime);
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+
+  <style type="text/css">
+    #app {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    img {
+      display: block;
+      margin: 0;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .container {
+      margin: 0 auto;
+      max-width: 100%;
+      width: 520px;
+      height: 100vh;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .bg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      filter: blur(6px);
+    }
+
+    .express {
+      margin: 0 auto;
+      max-width: 400px;
+      text-align: left;
+    }
+    .express h1 {
+      font-size: 20px;
+    }
+    .express p {
+      font-size: 16px;
+      font-weight: 400;
+    }
+    .wink {
+      margin: 0;
+      width: 100%;
+    }
+
+    .pray,
+    .agree {
+      margin: 0 auto;
+      padding: 16px 32px;
+      width: 400px;
+      max-width: 90%;
+      border-radius: 4px;
+      background-color: #f7f7f7;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .pray,
+    .agree p {
+      margin-top: 8px;
+      font-size: 16px;
+      color: #666;
+    }
+    .pray,
+    .agree img {
+      margin: 0 auto;
+      width: 200px;
+    }
+    .pray,
+    .agree-close {
+      font-size: 36px;
+      font-weight: 600;
+      color: #999;
+      position: absolute;
+      top: 16px;
+      right: 32px;
+    }
+    .agree {
+      background-color: #fff;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .agree-wrapper {
+      position: fixed;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+    .agree-cursor {
+      animation: cursorEffect 0.6s infinite steps(1, start);
+    }
+
+    @keyframes cursorEffect {
+      0%,
+      100% {
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .decision {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .decision-btn {
+      padding: 6px 16px;
+      vertical-align: middle;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .decision-btn span {
+      margin-left: 4px;
+    }
+    .decision.refuse span {
+      -webkit-filter: grayscale(100%);
+      -moz-filter: grayscale(100%);
+      -ms-filter: grayscale(100%);
+      -o-filter: grayscale(100%);
+      filter: grayscale(100%);
+      filter: gray;
+    }
+    .petal {
+    }
+    .petal-box {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .lover {
+      padding: 16px;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 9;
+      overflow-y: auto;
+    }
+    .pray {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 60%;
+      text-align: center;
+    }
+  </style>
+</html>
